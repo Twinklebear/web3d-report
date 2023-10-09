@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+                           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+                           crossorigin="anonymous">
+
+    <title>Web3D Report Test</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="col-12 row">
+            <div class="col-6 text-center">
+                <h4>WebGL2</h4>
+                <canvas id="webgl2-canvas" class="img-fluid" width="128" height="128"></canvas>
+                <div class="col-12 alert alert-success" id="yes-webgl2" style="display:none;">
+                    <h4>Your browser supports WebGL2</h4>
+                </div>
+                <div class="col-12 alert alert-danger" id="no-webgl2" style="display:none;">
+                    <h4>Error: Your browser does not support WebGL2</h4>
+                </div>
+            </div>
+            <div class="col-6 text-center">
+                <h4>WebGPU</h4>
+                <canvas id="webgpu-canvas" class="img-fluid" width="128" height="128"></canvas>
+                <div class="col-12 alert alert-success" id="yes-webgpu" style="display:none;">
+                    <h4>Your browser supports WebGPU</h4>
+                </div>
+                <div class="col-12 alert alert-danger" id="no-webgpu" style="display:none;">
+                    <h4>Error: Your browser does not support WebGPU</h4>
+                    <p>Try Chrome 113 or later</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
