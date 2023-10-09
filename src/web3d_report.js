@@ -1,9 +1,14 @@
 async function webGL2Report() {
+    let report = {"webgl2": false};
+
     const canvas = document.getElementById("webgl2-canvas");
     const gl = canvas.getContext("webgl2");
     if (!gl) {
-        return false;
+        return report;
     }
+
+    report["webgl2"] = true;
+    report["extensions"] = gl.getSupportedExtensions();
 
     let queryValues = {
         // Vendor/Renderer info
@@ -49,10 +54,6 @@ async function webGL2Report() {
         "MAX_VERTEX_UNIFORM_COMPONENTS": gl.MAX_VERTEX_UNIFORM_COMPONENTS
     };
 
-    let report = {}
-
-    report["extensions"] = gl.getSupportedExtensions();
-
     for (let i in queryValues) {
         report[i] = gl.getParameter(queryValues[i]);
     }
@@ -61,18 +62,40 @@ async function webGL2Report() {
 }
 
 async function webGPUReport() {
+    let report = {"webgpu": false};
     if (navigator.gpu === undefined) {
-        return false;
+        return report;
     }
 
     // Get a GPU device to render with
     let adapter = await navigator.gpu.requestAdapter();
+    if (!adapter) {
+        return report;
+    }
     let device = await adapter.requestDevice();
+    if (!device) {
+        return report;
+    }
 
-    // Get a context to display our rendered image on the canvas
-    let canvas = document.getElementById("webgpu-canvas");
-    let context = canvas.getContext("webgpu");
-    return true;
+
+    report["webgpu"] = true;
+    report["limits"] = {}
+    for (let k in adapter.limits) {
+        report["limits"][k] = adapter.limits[k];
+    }
+
+    report["features"] = []
+    for (let f of adapter.features) {
+        report["features"].push(f);
+    }
+
+    let adapterInfo = await adapter.requestAdapterInfo();
+    report["adapter"] = {};
+    for (let k in adapterInfo) {
+        report["adapter"][k] = adapterInfo[k];
+    }
+
+    return report;
 }
 
 (async () => {
@@ -85,6 +108,7 @@ async function webGPUReport() {
         document.getElementById("yes-webgl2").setAttribute("style", "display:block;");
     }
     console.log(webgl);
+    console.log(JSON.stringify(webgl));
 
     // Check WebGPU
     let webgpu = await webGPUReport();
@@ -94,5 +118,7 @@ async function webGPUReport() {
     } else {
         document.getElementById("yes-webgpu").setAttribute("style", "display:block;");
     }
+    console.log(webgpu);
+    console.log(JSON.stringify(webgpu));
 })();
 
