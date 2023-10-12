@@ -101,7 +101,7 @@ async function webGPUReport() {
 (async () => {
     // Check WebGL2
     let webgl = await webGL2Report();
-    if (!webgl) {
+    if (!webgl["webgl2"]) {
         document.getElementById("webgl2-canvas").setAttribute("style", "display:none;");
         document.getElementById("no-webgl2").setAttribute("style", "display:block;");
     } else {
@@ -112,7 +112,7 @@ async function webGPUReport() {
 
     // Check WebGPU
     let webgpu = await webGPUReport();
-    if (!webgpu) {
+    if (!webgpu["webgpu"]) {
         document.getElementById("webgpu-canvas").setAttribute("style", "display:none;");
         document.getElementById("no-webgpu").setAttribute("style", "display:block;");
     } else {
