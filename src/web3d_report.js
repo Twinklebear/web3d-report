@@ -122,6 +122,18 @@ async function webGPUReport() {
     return report;
 }
 
+function sharedArrayBufferSupport() {
+    try {
+        var s = new SharedArrayBuffer(1024);
+        if (s === undefined) {
+            return false;
+        }
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 (async () => {
     // Check WebGL2
     let webgl = await webGL2Report();
@@ -149,7 +161,8 @@ async function webGPUReport() {
     report = {
         "webgpu": webgpu,
         "webgl2": webgl,
-        "userAgent": navigator.userAgent
+        "userAgent": navigator.userAgent,
+        "SharedArrayBuffer": sharedArrayBufferSupport()
     };
     console.log(report);
 })();
