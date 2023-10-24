@@ -2,9 +2,27 @@ async function webGL2Report() {
     let report = {"webgl2": false};
 
     const canvas = document.getElementById("webgl2-canvas");
-    const gl = canvas.getContext("webgl2");
+    let gl = canvas.getContext("webgl2", {
+        powerPreference: "high-performance",
+        failIfMajorPerformanceCaveat: true
+    });
+
+    // Re-try without failing if major performance caveat to see if this
+    // system has that issue
     if (!gl) {
-        return report;
+        gl = canvas.getContext("webgl2", {
+            powerPreference: "high-performance",
+            failIfMajorPerformanceCaveat: false
+        });
+
+        // Ok, we really don't have WebGL2 support
+        if (!gl) {
+            return report;
+        }
+        // This system has some issues
+        report["major_performance_caveat"] = true;
+    } else {
+        report["major_performance_caveat"] = false;
     }
 
     report["webgl2"] = true;
