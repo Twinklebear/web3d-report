@@ -54,6 +54,12 @@ async function webGL2Report() {
         "MAX_VERTEX_UNIFORM_COMPONENTS": gl.MAX_VERTEX_UNIFORM_COMPONENTS
     };
 
+    const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+    if (debugInfo) {
+        queryValues["UNMASKED_VENDOR_WEBGL"] = debugInfo.UNMASKED_VENDOR_WEBGL;
+        queryValues["UNMASKED_RENDERER_WEBGL"] = debugInfo.UNMASKED_RENDERER_WEBGL;
+    }
+
     for (let i in queryValues) {
         report[i] = gl.getParameter(queryValues[i]);
     }
@@ -120,5 +126,13 @@ async function webGPUReport() {
     }
     console.log(webgpu);
     console.log(JSON.stringify(webgpu));
+    console.log(navigator.userAgent);
+
+    report = {
+        "webgpu": webgpu,
+        "webgl2": webgl,
+        "userAgent": navigator.userAgent
+    };
+    console.log(report);
 })();
 
