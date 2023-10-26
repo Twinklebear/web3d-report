@@ -1,7 +1,6 @@
-async function webGL2Report() {
+async function webGL2Report(canvas) {
     let report = {"webgl2": false};
 
-    const canvas = document.getElementById("webgl2-canvas");
     let gl = canvas.getContext("webgl2", {
         powerPreference: "high-performance",
         failIfMajorPerformanceCaveat: true
@@ -85,7 +84,7 @@ async function webGL2Report() {
     return report;
 }
 
-async function webGPUReport() {
+async function webGPUReport(canvas) {
     let report = {"webgpu": false};
     if (navigator.gpu === undefined) {
         return report;
@@ -135,8 +134,11 @@ function sharedArrayBufferSupport() {
 }
 
 (async () => {
+    // Make a canvas to get contexts on
+    const canvas = document.createElement("canvas");
+
     // Check WebGL2
-    let webgl = await webGL2Report();
+    let webgl = await webGL2Report(canvas);
     if (!webgl["webgl2"]) {
         document.getElementById("webgl2-canvas").setAttribute("style", "display:none;");
         document.getElementById("no-webgl2").setAttribute("style", "display:block;");
@@ -147,7 +149,7 @@ function sharedArrayBufferSupport() {
     console.log(JSON.stringify(webgl));
 
     // Check WebGPU
-    let webgpu = await webGPUReport();
+    let webgpu = await webGPUReport(canvas);
     if (!webgpu["webgpu"]) {
         document.getElementById("webgpu-canvas").setAttribute("style", "display:none;");
         document.getElementById("no-webgpu").setAttribute("style", "display:block;");
