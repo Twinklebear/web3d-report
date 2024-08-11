@@ -112,7 +112,7 @@ async function webGPUReport(canvas) {
         report["features"].push(f);
     }
 
-    let adapterInfo = await adapter.requestAdapterInfo();
+    let adapterInfo = adapter.info || await adapter.requestAdapterInfo();
     report["adapter"] = {};
     for (let k in adapterInfo) {
         report["adapter"][k] = adapterInfo[k];
